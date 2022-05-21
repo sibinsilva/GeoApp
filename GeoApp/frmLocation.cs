@@ -48,7 +48,7 @@ namespace GeoApp
             clsIPInfo ipInfo = new clsIPInfo();
             try
             {
-                string info = new WebClient().DownloadString("http://ipinfo.io/" + ip + "?token=" + GeoApp.Properties.Settings.Default.Token);
+                string info = new WebClient().DownloadString("http://ipinfo.io/" + ip + "?token=" + Settings.Default.Token);
                 ipInfo = JsonConvert.DeserializeObject<clsIPInfo>(info);
                 string cord = ipInfo.Loc;
                 string[] cords = cord.Split(',');
@@ -129,7 +129,7 @@ namespace GeoApp
 
             try
             {
-                doc.Load("https://maps.googleapis.com/maps/api/geocode/xml?key=" + GeoApp.Properties.Settings.Default.MapAPI + "&latlng=" + latitude + "," + longitude + "&sensor=false");
+                doc.Load("https://maps.googleapis.com/maps/api/geocode/xml?key=" + Settings.Default.MapAPI + "&latlng=" + latitude + "," + longitude + "&sensor=false");
                 XmlNode element = doc.SelectSingleNode("//GeocodeResponse/status");
                 if (element.InnerText == "ZERO_RESULTS")
                 {
@@ -192,7 +192,7 @@ namespace GeoApp
         private bool GetManualCords(string address)
         {
             bool retVal = false;
-            string requestUri = string.Format("https://maps.googleapis.com/maps/api/geocode/xml?key={1}&address={0}&sensor=false", Uri.EscapeDataString(address), GeoApp.Properties.Settings.Default.MapAPI);
+            string requestUri = string.Format("https://maps.googleapis.com/maps/api/geocode/xml?key={1}&address={0}&sensor=false", Uri.EscapeDataString(address), Settings.Default.MapAPI);
 
             WebRequest request = WebRequest.Create(requestUri);
             WebResponse response = request.GetResponse();
@@ -240,7 +240,7 @@ namespace GeoApp
             try
             {
                 this.lstStations.Items.Clear();
-                doc.Load("https://maps.googleapis.com/maps/api/place/nearbysearch/xml?location=" + latitude + "," + longitude + "&rankby=distance&type=" + TransportType + "&key=" + GeoApp.Properties.Settings.Default.MapAPI);
+                doc.Load("https://maps.googleapis.com/maps/api/place/nearbysearch/xml?location=" + latitude + "," + longitude + "&rankby=distance&type=" + TransportType + "&key=" + Settings.Default.MapAPI);
                 XmlNode status = doc.SelectSingleNode("//PlaceSearchResponse/status");
 
                 if (status.InnerText == "ZERO_RESULTS")
@@ -280,7 +280,7 @@ namespace GeoApp
             }
             else
             {
-                string url = "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=" + var + "&types=geocode&key=" + GeoApp.Properties.Settings.Default.MapAPI;
+                string url = "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=" + var + "&types=geocode&key=" + Settings.Default.MapAPI;
                 string content = fileGetContents(url);
                 JObject o = JObject.Parse(content);
                 List<string> add = new List<string>();

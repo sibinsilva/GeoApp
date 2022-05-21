@@ -59,7 +59,7 @@ namespace GeoApp
             }
             catch(Exception ex)
             {
-                MessageBox.Show("Unable to Connect to Internet. Please try again later.");
+                MessageBox.Show("Unable to Connect to Internet. Please try again later." + ex.Message);
                 WorkMode = null;
             }
         }
